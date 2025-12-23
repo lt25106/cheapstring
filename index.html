@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>String Cheaper</title>
+  <style>
+    *:not(span) {
+      background-color: black;
+      color: white;
+    }
+    body, input {
+      padding: 0;
+      text-align: center;
+      font-family: sans-serif;
+      font-size: 1.75rem;
+    }
+    input, button {
+      font-size: 1.75rem;
+    }
+    input[type="text"] {
+      width: 100%
+    }
+    input[type="checkbox"] {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+    input, button {
+      border-radius: 9e9rem;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>String Cheaper</h1>
+  <input type="text" placeholder="Enter String to Cheap"><br>
+  <span>&ZeroWidthSpace;</span><br>
+  <button>Copy</button><br><br>
+  <input type="checkbox" id="y"><label for="y">Include Y as vowel</label><br>
+  <input type="checkbox" id="caps"><label for="caps">Include capital letters</label>
+  <script>
+    const input = document.querySelector('input[type="text"]')
+    const span = document.querySelector('span')
+    const button = document.querySelector('button')
+    const ycheckbox = document.getElementById('y')
+    const capscheckbox = document.getElementById('caps')
+    let vowelstring = 'aeiou'
+    button.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(document.querySelector('span').textContent)
+      button.textContent = 'Copied!'
+      setTimeout(() => {
+        button.textContent = 'Copy'
+      }, 1000)
+    })
+    ycheckbox.addEventListener('change', () => {
+      if (ycheckbox.checked) {
+        vowelstring += 'y'
+      } else {
+        vowelstring = vowelstring.replace('y', '')
+      }
+      input.dispatchEvent(new Event('input'))
+    })
+    capscheckbox.addEventListener('change', () => {
+      input.dispatchEvent(new Event('input'))
+    })
+    input.addEventListener("input", () => {
+      span.textContent = ''
+      for (const word of input.value.split(' ')) {
+        if (word.length < 3) {
+          span.textContent += word + ' '
+          continue
+        }
+        span.textContent += word[0]
+        for (const char of word.slice(1, -1)) {
+          chartotest = capscheckbox.checked ? char.toLowerCase() : char
+          if (vowelstring.includes(chartotest)) continue
+          span.textContent += char
+        }
+        span.textContent += word.at(-1) + ' '
+      }
+    })
+  </script>
+</body>
+</html>
