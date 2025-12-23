@@ -67,7 +67,7 @@
     })
     input.addEventListener("input", () => {
       span.textContent = ''
-      for (const word of input.value.split(' ')) {
+      for (const word of input.value.split(/-|\s+/)) {
         if (word.length < 3) {
           span.textContent += word + ' '
           continue
